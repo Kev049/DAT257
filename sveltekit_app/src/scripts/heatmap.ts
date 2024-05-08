@@ -1,11 +1,11 @@
-import { select, scaleSequential, contourDensity, geoPath, interpolateInferno, selectAll } from 'd3';
+import { select, scaleSequential, contourDensity, geoPath, interpolateInferno, selectAll, interpolateRgb, interpolateHclLong } from 'd3';
 import proj4 from 'proj4';
 import { csv } from 'd3-fetch';
 
 export interface DataPoint {
     latitude: number;
     longitude: number;
-    radiation: number;
+    value: number;
 }
 
 interface SVGDimensions {
@@ -18,13 +18,12 @@ interface SVGCoordinate {
     y: number;
 }
 
-export async function fetchCSVData(): Promise<DataPoint[]> {
-    const url: string = "/heat.csv"
+export async function fetchCSVData(csv_path: string): Promise<DataPoint[]> {
     try {
-        const data: DataPoint[] = await csv(url, (d: any) => ({
-            latitude: +d.lat,
-            longitude: +d.long,
-            radiation: +d.irr_data
+        const data: DataPoint[] = await csv(csv_path, (d: any) => ({
+            latitude: +d.latitude,
+            longitude: +d.longitude,
+            value: +d.value
         }));
         return data;
     } catch (error) {
@@ -57,13 +56,13 @@ function convertCoordinates(lat: number, lon: number, svgDimensions: SVGDimensio
     const yScale = height / effectiveHeight;
 
     x = (x - minX) * xScale;
-    y = height - ((y - minY) * yScale);  // Y-axis poinz    ts down, have to adjust
+    y = height - ((y - minY) * yScale);  // Y-axis points down, have to adjust
 
     return { x, y };
 }
 
 // I use the D3 library to render a contour density map according to the radiation level.
-export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[]): Promise<void> {
+export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[], heatmapType: string): Promise<void> {
     const svgDimensions: SVGDimensions = { width: svgElement.viewBox.baseVal.width, height: svgElement.viewBox.baseVal.height };
 
      // Define a clip path using all country outlines
@@ -82,7 +81,7 @@ export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[]
     const contours = contourDensity<DataPoint>()
         .x(d => convertCoordinates(d.latitude, d.longitude, svgDimensions).x)
         .y(d => convertCoordinates(d.latitude, d.longitude, svgDimensions).y)
-        .weight(d => d.radiation)
+        .weight(d => d.value)
         .size([svgDimensions.width, svgDimensions.height])
         .bandwidth(15)
         .thresholds(22)
@@ -93,7 +92,7 @@ export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[]
 
     // Render the heatmap with the clip path applied
     const heatmapGroup = select(svgElement).append('g')
-        .attr('id', 'heatmapGroup')
+        .attr('id', heatmapType)
         .attr('clip-path', 'url(#heatmap-clip)');
 
     heatmapGroup.selectAll('path')
@@ -103,4 +102,6 @@ export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[]
         .attr('fill', d => colorScale(d.value))
         .attr('pointer-events', 'none')
         .style('opacity', 0.15);
+
+    if(heatmapType == 'windmapGroup') heatmapGroup.attr('display', 'none')
 }
