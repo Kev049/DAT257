@@ -2,6 +2,7 @@
     import { countryContentStore, countryGraphStore } from '../store/mapStore';
     import { onMount } from 'svelte'
     import { currentImage, currentTable } from '../scripts/mapInteractions';
+    import { packSiblings } from 'd3';
 
     onMount(() => {
         countryContent = currentTable; 
@@ -20,13 +21,22 @@
     countryGraphStore.subscribe(value => {
         countryGraph = value;
     });
+
+    function toggleGraphs() {
+        showImage = !showImage;
+    }
 </script>
 
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 border-b border-gray-200 z-10">
-    {@html countryContent}
-    {@html countryGraph}
-    <!-- {#if showImage}
+    {#if !showImage}
+        {@html countryContent}
+    {/if}
+    <!-- {@html countryContent} -->
+    <!-- {@html countryGraph} -->
+    {#if showImage}
         {@html countryGraph}
-    {/if} -->
-    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"></button>
+    {/if}
+    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4 on:click={toggleGraphs}">
+        <img src="../../pie-chart.png" alt="Icon"/>
+    </button>
 </div>
