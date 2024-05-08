@@ -53,7 +53,25 @@ function updateHighlights() {
     });
 }
 
+export function countriesTest(input: string): Set<string> {
+    let countrySet: Set<string> = new Set<string>;
+    let lowerInput = input.toLowerCase();
+    
+    for (const country of countries) {
+        if (country.toLowerCase().startsWith(lowerInput)) {
+            countrySet.add(country); // Add the matched country from the set to list
+        }
+    }
 
+    const regex = new RegExp(lowerInput, 'i'); // Create case-insensitive regex pattern from input
+    for (const country of countries) {
+        if (regex.test(country.toLowerCase())) {
+            countrySet.add(country); // Return the matched country from the set
+        }
+    }
+    
+    return countrySet;
+}
 
 function translateCountry(input: string): string | undefined {
     let upperInput = input.toUpperCase(); 
@@ -91,7 +109,7 @@ function translateCountry(input: string): string | undefined {
 export function initializeCountryMap() {
     const groups = document.querySelectorAll("svg g");
     groups.forEach(g => {
-        countries.add(g.id.toLowerCase())
+        countries.add(g.id)
     })
 }
 
