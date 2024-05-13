@@ -128,7 +128,7 @@ function calculateContours(data: DataPoint[], svgDimensions: SVGDimensions): Con
         .weight(d => d.value)
         .size([svgDimensions.width, svgDimensions.height])
         .bandwidth(20)
-        .thresholds(50)
+        .thresholds(40)
         (data);
 }
 
