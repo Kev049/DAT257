@@ -1,15 +1,20 @@
 <script lang="ts" context="module">
     import { zoom, type ViewBox, startDrag, onDrag } from '../scripts/zoom';
     import { viewBoxStore } from '../store/mapStore';
-    import { fetchCSVData, renderHeatmap } from '../scripts/heatmap';
+    import { HeatmapType, fetchCSVData, renderHeatmap } from '../scripts/heatmap';
+    import { style } from 'd3';
     
     export let viewBox: ViewBox = { x: 0, y: 0, width: 2000, height: 857 };
     export let svgElement : SVGSVGElement;
     let dragStart: { startX: number; startY: number } | null = null;
+    let sunButton: HTMLButtonElement; 
+    let windButton: HTMLButtonElement;
 
     export async function initialiseHeatmapPoints(){
-        const data = await fetchCSVData();
-        renderHeatmap(svgElement, data);
+        const windmapData = await fetchCSVData('/windspeed.csv');
+        const solarmapData = await fetchCSVData('/heat.csv');
+        renderHeatmap(svgElement, windmapData, HeatmapType.Windmap);
+        renderHeatmap(svgElement, solarmapData, HeatmapType.Solarmap);
     }
     
     viewBoxStore.subscribe(value => {
@@ -39,10 +44,37 @@
         viewBoxStore.set(viewBox);
         svgElement.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
     }
+
+    function toggleHeatmap(activeType: HeatmapType) {
+        const solarmapElement = document.getElementById(HeatmapType.Solarmap);
+        const windmapElement = document.getElementById(HeatmapType.Windmap);
+
+        if (!solarmapElement || !windmapElement) {
+            console.error("One or more elements are missing in the DOM.");
+            return;
+        }
+
+        // Setting display styles based on the active heatmap type
+        solarmapElement.style.display = activeType === HeatmapType.Solarmap ? "block" : "none";
+        windmapElement.style.display = activeType === HeatmapType.Windmap ? "block" : "none";
+
+        // Updating button backgrounds
+        sunButton.classList.toggle('bg-gray-500', activeType === HeatmapType.Solarmap);
+        sunButton.classList.toggle('bg-none', activeType !== HeatmapType.Solarmap);
+        windButton.classList.toggle('bg-gray-500', activeType === HeatmapType.Windmap);
+        windButton.classList.toggle('bg-none', activeType !== HeatmapType.Windmap);
+    }
+
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<div on:wheel={handleWheel} on:mousedown={handleMouseDown} on:mousemove={handleMouseMove} on:mouseup={handleMouseUp} on:mouseleave={handleMouseUp} class="cursor-grab select-none outline-none w-full h-full" aria-label="Interactive SVG Map" role="application">
+<div on:wheel={handleWheel} on:mousedown={handleMouseDown} on:mousemove={handleMouseMove} on:mouseup={handleMouseUp} on:mouseleave={handleMouseUp} class="relative cursor-grab select-none outline-none w-full h-full" aria-label="Interactive SVG Map" role="application">
+    <div class ="absolute flex flex-col overflow-hidden gap-4 ml-10 mt-10 z-10">
+        <button on:mousedown={() => toggleHeatmap(HeatmapType.Solarmap)} bind:this={sunButton} class="flex justify-center items-center border-4 border-black w-24 h-24 bg-white bg-opacity-30 transition-all hover:bg-white" type="submit"><img src="/sun.png" alt="img error" >
+        </button>
+        <button on:mousedown={() => toggleHeatmap(HeatmapType.Windmap)} bind:this={windButton} class="flex justify-center items-center border-4 border-black w-24 h-24 bg-white bg-opacity-30 hover:bg-white" type="submit"><img src="/wind.png" alt="img error">
+        </button>
+    </div>
     <svg bind:this={svgElement} baseProfile="tiny" fill="#ececec" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewBox="0 0 2000 857" xmlns="http://www.w3.org/2000/svg">
         <circle cx="997.9" cy="189.1" id="0">
         </circle>
@@ -523,3 +555,11 @@
         </path></g>
     </svg>
 </div>
+
+
+
+
+<!-- 
+heatmap: heatmapGroup
+windmap: windmapGroup
+-->

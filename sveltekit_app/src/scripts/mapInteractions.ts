@@ -169,7 +169,7 @@ export function setupMapInteractions(svgElement : SVGSVGElement) {
 
     function handleClickOnSite(event: MouseEvent) {
         const target = event.target as Element | null;
-        if (!target?.closest('g')) {
+        if (!target?.closest('g') && !(target?.id == "toggleIcon")) {
             if (get(sidepanelToggler)) {
                 sidepanelToggler.set(false);
             }

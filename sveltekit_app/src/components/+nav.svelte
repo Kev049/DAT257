@@ -21,7 +21,4 @@
             <button type="submit" class="absolute border-2 right-2 top-2 text-white bg-[#323638] hover:opacity-[75%] focus:ring-4 focus:outline-none font-dosis rounded-lg text-sm px-4 py-2 ">Search</button>
         </form>
     </div>
-    <div class="flex justify-end pr-16 items-center m-0 font-dosis text-black text-2xl">
-        Menu
-    </div>
 </nav>

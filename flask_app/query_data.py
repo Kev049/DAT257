@@ -22,8 +22,8 @@ def query_data(country): # Returns a dataframe containing the country matching t
     dataset = pd.read_csv('flask_app/clumped_data.csv')
     #values = dataset[dataset['Country'].str.contains(fr'{country}', case=False)].reset_index().to_json(orient='records')
     formatted = (dataset[dataset['Country'].str.match(fr'{country}', case=False)].reset_index()).dropna(axis=1, how='all').transpose()
-    dropped = formatted.iloc[1: , :]
-    html_table = dropped.to_html(classes='table')
+    chosen_info = formatted.iloc[1: , :]
+    html_table = chosen_info.to_html(classes='table',index_names=False, header=False, bold_rows=False, justify= 'center')
     return html_table
 
 @app.route("/chart/<country>", methods=['GET','POST'])
