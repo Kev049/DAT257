@@ -39,7 +39,6 @@ def get_plot(country):
         if (values.any()):
             fig,ax = plt.subplots()
             ax.pie(values)
-            fig.legend(labels=labels, loc='upper right', bbox_to_anchor=(0.1,1))
             fig.savefig(f'sveltekit_app/static/country_prod/{country}.png', bbox_inches='tight', pad_inches=0.8)
         else:
             content = '<! no value>'
@@ -58,7 +57,6 @@ def get_con(country):
         if (values.any()):
             fig,ax = plt.subplots()
             ax.pie(values)
-            fig.legend(labels=labels, loc='upper right', bbox_to_anchor=(0.1,1))
             fig.savefig(f'sveltekit_app/static/country_con/{country}.png', bbox_inches='tight', pad_inches=0.8)
         else:
             content = '<! no value>'
