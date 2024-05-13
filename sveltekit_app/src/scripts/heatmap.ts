@@ -36,6 +36,7 @@ export async function fetchCSVData(csv_path: string): Promise<DataPoint[]> {
             longitude: +d.longitude,
             value: +d.value
         }));
+        console.log(data);
         return data;
     } catch (error) {
         console.error('Error fetching or parsing CSV data:', error);
@@ -50,7 +51,6 @@ const robinson = '+proj=robin +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_d
 
 function convertCoordinates(lat: number, lon: number, svgDimensions: SVGDimensions): SVGCoordinate {
     const { width, height } = svgDimensions;
-
     // I have adjusted the degrees below to fit our map, normal maps have longitude(-180, 180) and latitude(-90, 90) for reference
     const minY = proj4(wgs84, robinson, [0, -56.5])[1];
     const maxY = proj4(wgs84, robinson, [0, 85])[1];
