@@ -8,4 +8,35 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-ambient.d.ts
+sveltekit_app/static/Algeria.png
+sveltekit_app/static/Brazil.png
+sveltekit_app/static/Bulgaria.png
+sveltekit_app/static/Canada.png
+sveltekit_app/static/China.png
+sveltekit_app/static/Colombia.png
+sveltekit_app/static/Cuba.png
+sveltekit_app/static/El Salvador.png
+sveltekit_app/static/Greenland.png
+sveltekit_app/static/Guatemala.png
+sveltekit_app/static/Honduras.png
+sveltekit_app/static/India.png
+sveltekit_app/static/Iran.png
+sveltekit_app/static/Iraq.png
+sveltekit_app/static/Israel.png
+sveltekit_app/static/Kazakhstan.png
+sveltekit_app/static/Libya.png
+sveltekit_app/static/Madagascar.png
+sveltekit_app/static/Mexico.png
+sveltekit_app/static/Mongolia.png
+sveltekit_app/static/Mozambique.png
+sveltekit_app/static/Nicaragua.png
+sveltekit_app/static/Pakistan.png
+sveltekit_app/static/Saudi Arabia.png
+sveltekit_app/static/South Africa.png
+sveltekit_app/static/Sweden.png
+sveltekit_app/static/Tajikistan.png
+sveltekit_app/static/Turkmenistan.png
+sveltekit_app/static/Uruguay.png
+sveltekit_app/static/Venezuela.png
+sveltekit_app/.svelte-kit/ambient.d.ts
+sveltekit_app/.svelte-kit/generated/client/app.js
