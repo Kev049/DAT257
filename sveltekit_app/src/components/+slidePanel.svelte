@@ -27,8 +27,15 @@
     }
 </script>
 
+<style>
+    .dataframe > tbody > tr:first-child td {
+      font-weight: bold;
+    }
+</style>
+
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 z-10 border-l-4 border-r-4 border-[#333333]">
     {#if !showImage}
+        <!-- {console.log(countryContent)} -->
         {@html countryContent}
     {/if}
     <!-- {@html countryContent} -->

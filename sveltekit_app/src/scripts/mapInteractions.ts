@@ -149,8 +149,9 @@ export function setupMapInteractions(svgElement : SVGSVGElement) {
             const target = event.target as Element;
             const closestGroup = target.closest('g');
             if (closestGroup) {
+                countryStore.set(closestGroup.id);
                 tooltipToggler.set(!get(tooltipToggler));
-                updateSidePanel(closestGroup.id);
+                // updateSidePanel(closestGroup.id);
                 updateHighlights();
             }
         }
@@ -166,8 +167,6 @@ export function setupMapInteractions(svgElement : SVGSVGElement) {
     function handleClickOnSite(event: MouseEvent) {
         const target = event.target as Element | null;
         if (!target?.closest('g') && !(target?.id == "toggleIcon")) {
-            console.log(target?.id, "the target id")
-            console.log(target, "the target")
             if (get(sidepanelToggler)) {
                 sidepanelToggler.set(false);
             }
