@@ -47,7 +47,9 @@
     <!-- {@html countryContent} -->
     <!-- {@html countryGraph} -->
     {#if showImage}
+        <img src="country_prod/ProdLegend.png" alt="Legend for production graphs">
         {@html countryGraph}
+        <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
         {@html countryCon}
     {/if}
     <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} id=toggleCharts>

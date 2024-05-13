@@ -39,7 +39,7 @@ declare module '$env/static/private' {
 	export const ComSpec: string;
 	export const DriverData: string;
 	export const EDITOR: string;
-	export const EFC_6920: string;
+	export const EFC_8268: string;
 	export const GIT_ASKPASS: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
@@ -76,7 +76,6 @@ declare module '$env/static/private' {
 	export const npm_package_json: string;
 	export const npm_package_name: string;
 	export const npm_package_version: string;
-	export const NPM_PREFIX_JS: string;
 	export const NPM_PREFIX_NPM_CLI_JS: string;
 	export const NUMBER_OF_PROCESSORS: string;
 	export const OneDrive: string;
@@ -157,7 +156,7 @@ declare module '$env/dynamic/private' {
 		ComSpec: string;
 		DriverData: string;
 		EDITOR: string;
-		EFC_6920: string;
+		EFC_8268: string;
 		GIT_ASKPASS: string;
 		HOME: string;
 		HOMEDRIVE: string;
@@ -194,7 +193,6 @@ declare module '$env/dynamic/private' {
 		npm_package_json: string;
 		npm_package_name: string;
 		npm_package_version: string;
-		NPM_PREFIX_JS: string;
 		NPM_PREFIX_NPM_CLI_JS: string;
 		NUMBER_OF_PROCESSORS: string;
 		OneDrive: string;
