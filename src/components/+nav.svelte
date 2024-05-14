@@ -5,15 +5,22 @@
 
     let selectedCountry : string = $countryStore;
     let autocompleteSuggestions: Set<string> = new Set<string>;
+    let showDropdown = false;
 
     function updateCountry(event: Event) {
         const input = event.target as HTMLInputElement;
         countryStore.set(input.value);
 
         autocompleteSuggestions = countriesTest($countryStore);
+        showDropdown = autocompleteSuggestions.size > 0 && selectedCountry.length > 0;
     }
 
-    
+    function selectSuggestion(suggestion: string) {
+        $countryStore = suggestion;
+        showDropdown = false; // Hide dropdown after selection
+    }
+
+
     // Function to bold the matched part of the suggestion
     function boldMatch(input: string, selectedCountry: string): string {
         const index = input.toLowerCase().indexOf(selectedCountry.toLowerCase());
@@ -37,10 +44,10 @@
         <form class="relative w-full flex max-h-full" on:submit="{handleFormSubmit}">
             <input type="search" bind:value={selectedCountry} on:input="{updateCountry}" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 outline-none font-dosis" placeholder="Search countries, continents..." required />
             <button type="submit" class="absolute border-2 right-2 top-2 text-white bg-[#323638] hover:opacity-[75%] focus:ring-4 focus:outline-none font-dosis rounded-lg text-sm px-4 py-2 ">Search</button>
-            {#if autocompleteSuggestions.size > 0 && selectedCountry.length > 0}
+            {#if showDropdown}
                 <ul class="absolute top-11 z-10 bg-white w-full mt-2 rounded-lg border border-gray-300">
                     {#each autocompleteSuggestions as suggestion}
-                    <button class="block w-full text-left px-4 py-2 focus:outline-none hover:bg-gray-100 text-black text-4xl font-dosis border-t border-b" on:click={() => {$countryStore = suggestion}}>
+                    <button class="block w-full text-left px-4 py-2 focus:outline-none hover:bg-gray-100 text-black text-4xl font-dosis border-t border-b" on:click={() => selectSuggestion(suggestion)}>
                         {@html boldMatch(suggestion, selectedCountry)}
                     </button>
                     {/each}
