@@ -3,6 +3,7 @@ import { countryStore, tooltipToggler, sidepanelToggler, countryContentStore, xS
 import { twoLetterCountryCodes, threeLetterCountryCodes } from './countryCodes';
 import { zoomToCountry } from './zoom';
 import { viewBox, svgElement } from '../components/+map.svelte';
+import { count } from 'd3';
 
 export let tooltipContent: string = '';
 export let countries: Set<string> = new Set<string>();
@@ -74,19 +75,19 @@ export function countriesTest(input: string): Set<string> {
 }
 
 function translateCountry(input: string): string | undefined {
-    let upperInput = input.toUpperCase(); 
+    // let upperInput = input.toUpperCase(); 
 
-    // Check if input is two letter country code
-    if (upperInput in twoLetterCountryCodes) {
-        return twoLetterCountryCodes[upperInput];
-    }
+    // // Check if input is two letter country code
+    // if (upperInput in twoLetterCountryCodes) {
+    //     return twoLetterCountryCodes[upperInput];
+    // }
 
-    // Check if inut is three letter country code
-    if (upperInput in threeLetterCountryCodes) {
-        return threeLetterCountryCodes[upperInput];
-    }
+    // // Check if inut is three letter country code
+    // if (upperInput in threeLetterCountryCodes) {
+    //     return threeLetterCountryCodes[upperInput];
+    // }
 
-    let lowerInput = upperInput.toLowerCase(); // Convert input to lowercase for case-insensitive comparison
+    let lowerInput = input.toLowerCase(); // Convert input to lowercase for case-insensitive comparison
     
     // First check if input matches the start of any country string
     for (const country of countries) {
@@ -108,9 +109,12 @@ function translateCountry(input: string): string | undefined {
 
 export function initializeCountryMap() {
     const groups = document.querySelectorAll("svg g");
+    let arr: string[] = new Array();
     groups.forEach(g => {
-        countries.add(g.id)
+        arr.push(g.id)        
     })
+    arr.sort();
+    countries = new Set(arr);
 }
 
 export function setupMapInteractions(svgElement : SVGSVGElement) {
