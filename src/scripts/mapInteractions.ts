@@ -57,17 +57,37 @@ function updateHighlights() {
 
 export function countriesTest(input: string): Set<string> {
     let countrySet: Set<string> = new Set<string>;
+    let countryFoundWithCode: string | null = null;
+
+    let upperInput = input.toUpperCase(); 
+
+    // Check if input is two letter country code
+    if (upperInput in twoLetterCountryCodes) {
+        countryFoundWithCode = twoLetterCountryCodes[upperInput].toLowerCase();
+        countrySet.add(twoLetterCountryCodes[upperInput]  + " (" + upperInput + ")");
+    }
+
+    // Check if inut is three letter country code
+    if (upperInput in threeLetterCountryCodes) {
+        countryFoundWithCode = threeLetterCountryCodes[upperInput].toLowerCase();
+        countrySet.add(threeLetterCountryCodes[upperInput] + " (" + upperInput + ")");
+    }
+
     let lowerInput = input.toLowerCase();
     
     for (const country of countries) {
-        if (country.toLowerCase().startsWith(lowerInput)) {
+        if (country.toLowerCase().startsWith(lowerInput) && country.toLowerCase() !== countryFoundWithCode) {
             countrySet.add(country); // Add the matched country from the set to list
         }
     }
 
     const regex = new RegExp(lowerInput, 'i'); // Create case-insensitive regex pattern from input
     for (const country of countries) {
-        if (regex.test(country.toLowerCase())) {
+        if (country.toLowerCase() === countryFoundWithCode) {
+            continue;
+        }
+        let countryRegex = regex.test(country.toLowerCase());
+        if (countryRegex) {
             countrySet.add(country); // Return the matched country from the set
         }
     }
@@ -76,17 +96,17 @@ export function countriesTest(input: string): Set<string> {
 }
 
 function translateCountry(input: string): string | undefined {
-    // let upperInput = input.toUpperCase(); 
+    let upperInput = input.toUpperCase(); 
 
-    // // Check if input is two letter country code
-    // if (upperInput in twoLetterCountryCodes) {
-    //     return twoLetterCountryCodes[upperInput];
-    // }
+    // Check if input is two letter country code
+    if (upperInput in twoLetterCountryCodes) {
+        return twoLetterCountryCodes[upperInput];
+    }
 
-    // // Check if inut is three letter country code
-    // if (upperInput in threeLetterCountryCodes) {
-    //     return threeLetterCountryCodes[upperInput];
-    // }
+    // Check if inut is three letter country code
+    if (upperInput in threeLetterCountryCodes) {
+        return threeLetterCountryCodes[upperInput];
+    }
 
     let lowerInput = input.toLowerCase(); // Convert input to lowercase for case-insensitive comparison
     

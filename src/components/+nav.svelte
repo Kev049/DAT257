@@ -20,10 +20,12 @@
 
     // Updates store variable and search bar text
     function updateSearch(country: string) {
-        $countryStore = country;
+        // Remove space before a parenthesis and everything in the parenthesis
+        const cleanedCountry = country.replace(/\s*\(.*?\)/, '');
+        $countryStore = cleanedCountry;
 
         if (searchBar != null) {
-            searchBar.value = country;
+            searchBar.value = cleanedCountry;
         }
     }
 
@@ -31,14 +33,30 @@
     // Function to bold the matched part of the suggestion
     function boldMatch(input: string, selectedCountry: string): string {
         const index = input.toLowerCase().indexOf(selectedCountry.toLowerCase());
+        
+        if (index === -1) {
+            return boldParentheses(input, selectedCountry);
+        }
+
         const endIndexOfMatch = index + selectedCountry.length;
 
         const beforeMatch = input.substring(0, index);
         const matchedPart = input.substring(index, endIndexOfMatch);
         const afterMatch = input.substring(endIndexOfMatch);
 
-    return `${beforeMatch}<strong>${matchedPart}</strong>${afterMatch}`;
-}
+        const resultWithMatchBolded = `${beforeMatch}<strong>${matchedPart}</strong>${afterMatch}`;
+        return boldParentheses(resultWithMatchBolded, selectedCountry);
+    }
+
+    function boldParentheses(text: string, selectedCountry: string): string {
+        const regex = new RegExp(`\\(([^)]+)\\)`, 'g');
+        return text.replace(regex, (match, p1) => {
+            if (p1.toLowerCase() === selectedCountry.toLowerCase()) {
+                return `(<strong>${p1}</strong>)`;
+            }
+            return match;
+        });
+    }
 
 </script>
 
