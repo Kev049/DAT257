@@ -17,6 +17,7 @@
 
     function selectSuggestion(suggestion: string) {
         $countryStore = suggestion;
+        console.log("in selectSuggestion, " + $countryStore);
         showDropdown = false; // Hide dropdown after selection
     }
 
@@ -47,7 +48,7 @@
             {#if showDropdown}
                 <ul class="absolute top-11 z-10 bg-white w-full mt-2 rounded-lg border border-gray-300">
                     {#each autocompleteSuggestions as suggestion}
-                    <button class="block w-full text-left px-4 py-2 focus:outline-none hover:bg-gray-100 text-black text-4xl font-dosis border-t border-b" on:click={() => selectSuggestion(suggestion)}>
+                    <button class="block w-full text-left px-4 py-2 focus:outline-none hover:bg-gray-100 text-black text-4xl font-dosis border-t border-b" on:click={handleFormSubmit} on:click={showDropdown=false}>
                         {@html boldMatch(suggestion, selectedCountry)}
                     </button>
                     {/each}

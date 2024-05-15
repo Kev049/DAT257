@@ -10,7 +10,7 @@ export let countries: Set<string> = new Set<string>();
 export let current_selected: string = '';
 
 export function handleFormSubmit(event: Event) {
-    console.log(get(countryStore));
+    console.log("in handleFormSubmit, " + get(countryStore));
     event.preventDefault();
     updateHighlights();
 }
