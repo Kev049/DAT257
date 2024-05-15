@@ -33,9 +33,11 @@
 
     function toggleGraphs() {
         showImage = !showImage;
-
-        //console.log(table instanceof HTMLTableElement)
-        // console.log(countryGraph)
+        var tempImgObject = document.createElement('div');
+        tempImgObject.innerHTML = countryGraph;
+        var cImg = tempImgObject.querySelector('image');
+        console.log(cImg);
+        //TODO: kolla det ovan och fixa det på rad 55(under var cImg i shouldShowPieChart())
     }
 
     function shouldShowPieChart(){
@@ -43,18 +45,15 @@
         tempObject.innerHTML = countryContent;
         var table = tempObject.querySelector('table');
         var rowLength = table?.rows.length;
-        if( rowLength != undefined){
-            if(rowLength <= 3){
-                return false;
+        if(rowLength != undefined){
+            if(rowLength > 3){
+                return true;
             }
-        }
-    }
+            var tempImgObject = document.createElement('div');
+            tempImgObject.innerHTML = countryGraph;
+            var cImg = tempImgObject.querySelector('image');
 
-    function updateButtonState() {
-        if (shouldShowPieChart()) {
-            button.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else {
-            button.classList.add('opacity-50', 'cursor-not-allowed');
+            return false;
         }
     }
 </script>
@@ -63,6 +62,10 @@
     .dataframe > tbody > tr:first-child td {
       font-weight: bold;
     }
+
+    .disabled {
+    background-color: #ccc;
+  }
 </style>
 
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 z-10 border-l-4 border-r-4 border-[#333333]">
@@ -78,8 +81,10 @@
         <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
         {@html countryCon}
     {/if}
-    <!-- {#if !countryGraph} -->
-    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} id=toggleCharts>
+    <!-- <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} id=toggleCharts>
+        <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
+    </button> -->
+    <button class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} disabled={!shouldShowPieChart} id=toggleCharts>
         <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
     </button>
 </div>
