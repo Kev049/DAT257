@@ -1,4 +1,4 @@
-import { select, scaleSequential, contourDensity, geoPath, interpolateInferno, selectAll, interpolateRgb, interpolateHclLong, type ScaleSequential, type ContourMultiPolygon, interpolateCool } from 'd3';
+import { select, scaleSequential, contourDensity, geoPath, interpolateInferno, selectAll, interpolateHclLong, type ScaleSequential, type ContourMultiPolygon, interpolateCool, axisBottom, scaleLinear } from 'd3';
 import proj4 from 'proj4';
 import { csv } from 'd3-fetch';
 
@@ -11,6 +11,7 @@ interface HeatmapStyle {
     colorInterpolator: (t: number) => string;
     opacity: number;
     display: 'inline' | 'none';
+    maxValue: number;
 }
 
 export interface DataPoint {
@@ -36,7 +37,6 @@ export async function fetchCSVData(csv_path: string): Promise<DataPoint[]> {
             longitude: +d.longitude,
             value: +d.value
         }));
-        console.log(data);
         return data;
     } catch (error) {
         console.error('Error fetching or parsing CSV data:', error);
@@ -80,18 +80,21 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
                 colorInterpolator: interpolateCool,
                 opacity: 0.5,
                 display: 'none',
+                maxValue: 13,
             };
         case HeatmapType.Solarmap:
             return {
                 colorInterpolator: interpolateHclLong("yellow", "red"),
                 opacity: 0.5,
                 display: 'inline',
+                maxValue: 225,
             };
         default:
             return {
                 colorInterpolator: interpolateInferno,
                 opacity: 0.15,
                 display: 'inline',
+                maxValue: 100,
             };
     }
 }
@@ -104,6 +107,7 @@ export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[]
     const contours = calculateContours(data, svgDimensions);
     const colorScale = setupColorScale(contours, styleConfig);
     renderContours(svgElement, contours, colorScale, styleConfig, heatmapType);
+    addLegend(svgElement, colorScale, styleConfig, contours);
 }
 
 // Basically ensures that contours stay within each country's border
@@ -132,10 +136,61 @@ function calculateContours(data: DataPoint[], svgDimensions: SVGDimensions): Con
         (data);
 }
 
-function setupColorScale(contours: d3.ContourMultiPolygon[], styleConfig: HeatmapStyle): ScaleSequential<string, never> {
+function setupColorScale(contours: ContourMultiPolygon[], styleConfig: HeatmapStyle): ScaleSequential<string, never> {
     // Select the greatest value for each contour and interpolate color scale.
     const maxContourValue = Math.max(...contours.map(c => c.value));
     return scaleSequential(styleConfig.colorInterpolator).domain([0, maxContourValue]);
+}
+
+function addLegend(svgElement: SVGSVGElement, colorScale: ScaleSequential<string, never>, styleConfig : HeatmapStyle, contours: ContourMultiPolygon[]): void {
+    const legendWidth = 300;
+    const legendHeight = 20;
+    const margin = { top: 10, right: 10, bottom: 30, left: 10 };
+    const maxContourValue = Math.max(...contours.map(c => c.value));
+
+    const svg = select(svgElement);
+
+    const gradient = svg.append("linearGradient")
+        .attr("id", "legend-gradient")
+        .attr("x1", "0%")
+        .attr("x2", "100%")
+        .attr("y1", "0%")
+        .attr("y2", "0%")
+        
+
+    // Create a gradient based on the color scale
+    const numberOfStops = 10;
+    for (let i = 0; i <= numberOfStops; i++) {
+        const value = (i / numberOfStops) * maxContourValue;
+        gradient.append("stop")
+            .attr("offset", `${(i / numberOfStops) * 100}%`)
+            .attr("stop-color", colorScale(value));
+    }
+
+    // Add legend to SVG
+    const legendGroup = svg.append("g")
+        .attr("class", "legend")
+        .attr("display", styleConfig.display)
+        .attr("transform", `translate(${margin.left},${svgElement.viewBox.baseVal.height - margin.bottom - legendHeight})`);
+
+    // Draw the rectangle and fill it with the gradient
+    legendGroup.append("rect")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .attr("display", styleConfig.display)
+        .style("fill", "url(#legend-gradient)");
+        
+
+    // Add labels for the legend
+    const legendScale = scaleLinear()
+        .domain([0, styleConfig.maxValue])
+        .range([0, legendWidth]);
+
+    const legendAxis = legendGroup.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(0, ${legendHeight})`)
+        .attr("display", styleConfig.display)
+        .call(axisBottom(legendScale).ticks(5));
 }
 
 function renderContours(svgElement: SVGSVGElement, contours: ContourMultiPolygon[], colorScale: ScaleSequential<string, never>, styleConfig: HeatmapStyle, heatmapType: HeatmapType): void {
