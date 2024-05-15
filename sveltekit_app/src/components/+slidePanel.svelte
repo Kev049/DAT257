@@ -1,17 +1,19 @@
 <script lang="ts">
-    import { countryContentStore, countryGraphStore } from '../store/mapStore';
+    import { countryContentStore, countryGraphStore, countryConStore } from '../store/mapStore';
     import { onMount } from 'svelte'
-    import { currentImage, currentTable } from '../scripts/mapInteractions';
+    import { currentImage, currentTable, currentCon } from '../scripts/mapInteractions';
     import { packSiblings } from 'd3';
 
     onMount(() => {
         countryContent = currentTable; 
         countryGraph = currentImage;
+        countryCon = currentCon;
     });
 
+    $: countryContent = '';
+    $: countryGraph = '';
+    $: countryCon = '';
     $: showImage = false;
-    $: countryContent = 'Hej';
-    $: countryGraph = 'Da';
     let src: string;
     
     countryContentStore.subscribe(value => {
@@ -21,6 +23,10 @@
     countryGraphStore.subscribe(value => {
         countryGraph = value;
     });
+
+    countryConStore.subscribe(value => {
+        countryCon = value;
+    })
 
     function toggleGraphs() {
         showImage = !showImage;
@@ -41,7 +47,10 @@
     <!-- {@html countryContent} -->
     <!-- {@html countryGraph} -->
     {#if showImage}
+        <img src="country_prod/ProdLegend.png" alt="Legend for production graphs">
         {@html countryGraph}
+        <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
+        {@html countryCon}
     {/if}
     <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} id=toggleCharts>
         <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>

@@ -10,7 +10,8 @@ services:
     volumes:
       - ./flask_app:/app
       - ../sveltekit_app/static:/app/sveltekit_app/static
-
+      - ../sveltekit_app/static:/app/sveltekit_app/static/country_prod
+      - ../sveltekit_app/static:/app/sveltekit_app/static/country_con
   sveltekit_app:
     build: ./sveltekit_app
     ports:
