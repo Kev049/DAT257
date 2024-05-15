@@ -84,7 +84,7 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
         case HeatmapType.Solarmap:
             return {
                 colorInterpolator: interpolateHclLong("yellow", "red"),
-                opacity: 0.15,
+                opacity: 0.5,
                 display: 'inline',
             };
         default:
@@ -128,7 +128,7 @@ function calculateContours(data: DataPoint[], svgDimensions: SVGDimensions): Con
         .weight(d => d.value)
         .size([svgDimensions.width, svgDimensions.height])
         .bandwidth(20)
-        .thresholds(40)
+        .thresholds(20)
         (data);
 }
 
