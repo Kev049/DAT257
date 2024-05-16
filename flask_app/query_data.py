@@ -23,11 +23,13 @@ def query_data(country):
     Parameters:
         - country: string | The name of the country
     """
+    response = ''
     dataset = pd.read_csv('flask_app/clumped_data.csv')
     formatted = (dataset[dataset['Country'].str.match(fr'{country}', case=False)].reset_index()).dropna(axis=1, how='all').transpose()
     chosen_info = formatted.iloc[1: , :]
-    html_table = chosen_info.to_html(classes='table',index_names=False, header=False, bold_rows=False, justify= 'center')
-    return html_table
+    if len(chosen_info.to_numpy().flatten()) > 0 :
+        response = chosen_info.to_html(classes='table',index_names=False, header=False, bold_rows=False, justify= 'center')
+    return response
 
 @app.route("/chart/<country>", methods=['GET','POST'])
 def get_plot(country):
