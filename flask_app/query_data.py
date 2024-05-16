@@ -18,8 +18,7 @@ CORS(app)
 @app.route("/<country>", methods=['GET'])
 def query_data(country):
     """
-    Returns a dataframe containing the country matching the input string and the data of that country.
-    Will return an empty dataframe (but containing its columns) if the input does not match a country
+    Returns an html table containing the energy production by source of the country that was given as a parameter.
     
     Parameters:
         - country: string | The name of the country

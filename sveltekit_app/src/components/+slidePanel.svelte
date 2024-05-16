@@ -17,6 +17,11 @@
     $: countryGraph = '';
     $: countryCon = '';
     $: showImage = false;
+    $: panelState = 0;
+    $: tableButtonColor = 'black';
+    $: prodButtonColor = 'white';
+    $: conButtonColor = 'white';
+
     let src: string;
     
     countryContentStore.subscribe(value => {
@@ -38,6 +43,27 @@
         var cImg = tempImgObject.querySelector('image');
         console.log(cImg);
         //TODO: kolla det ovan och fixa det på rad 55(under var cImg i shouldShowPieChart())
+    }
+
+    function showTable() {
+        panelState = 0;
+        tableButtonColor = 'black';
+        prodButtonColor = 'white';
+        conButtonColor = 'white';
+    }
+
+    function showProd() {
+        panelState = 1;
+        tableButtonColor = 'white';
+        prodButtonColor = 'black';
+        conButtonColor = 'white';
+    }
+
+    function showCon() {
+        panelState = 2;
+        tableButtonColor = 'white';
+        prodButtonColor = 'white';
+        conButtonColor = 'black';
     }
 
     function shouldShowPieChart(){
@@ -69,22 +95,33 @@
 </style>
 
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 z-10 border-l-4 border-r-4 border-[#333333]">
-    {#if !showImage}
+    <div id="Button bar">
+        <button style:background-color={tableButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showTable} disabled={!shouldShowPieChart} id=toggleCharts>
+            <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
+        </button>
+        <button style:background-color={prodButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showProd} disabled={!shouldShowPieChart} id=toggleCharts>
+            <img id="toggleIcon" src="../../wind-turbine.png" alt="Icon"/>
+        </button>
+        <button style:background-color={conButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showCon} disabled={!shouldShowPieChart} id=toggleCharts>
+            <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
+        </button>
+    </div>
+    {#if panelState === 0}
         <!-- {console.log(countryContent)} -->
         {@html countryContent}
     {/if}
     <!-- {@html countryContent} -->
     <!-- {@html countryGraph} -->
-    {#if showImage}
+    {#if panelState === 1}
         <img src="country_prod/ProdLegend.png" alt="Legend for production graphs">
         {@html countryGraph}
+    {/if}
+    {#if panelState === 2}
         <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
         {@html countryCon}
     {/if}
     <!-- <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} id=toggleCharts>
         <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
     </button> -->
-    <button class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} disabled={!shouldShowPieChart} id=toggleCharts>
-        <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
-    </button>
+    
 </div>
