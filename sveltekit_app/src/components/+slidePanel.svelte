@@ -18,7 +18,7 @@
     $: countryCon = '';
     $: showImage = false;
     $: panelState = 0;
-    $: tableButtonColor = 'black';
+    $: tableButtonColor = 'grey';
     $: prodButtonColor = 'white';
     $: conButtonColor = 'white';
 
@@ -43,7 +43,7 @@
 
     function showTable() {
         panelState = 0;
-        tableButtonColor = 'black';
+        tableButtonColor = 'grey';
         prodButtonColor = 'white';
         conButtonColor = 'white';
     }
@@ -51,7 +51,7 @@
     function showProd() {
         panelState = 1;
         tableButtonColor = 'white';
-        prodButtonColor = 'black';
+        prodButtonColor = 'grey';
         conButtonColor = 'white';
     }
 
@@ -59,7 +59,7 @@
         panelState = 2;
         tableButtonColor = 'white';
         prodButtonColor = 'white';
-        conButtonColor = 'black';
+        conButtonColor = 'grey';
     }
 
     function shouldShowPieChart(){
@@ -102,13 +102,13 @@
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 z-10 border-l-4 border-r-4 border-[#333333]">
     <div id="Button bar">
         <button style:background-color={tableButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showTable} disabled={!shouldShowPieChart} id=toggleCharts>
-            <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
+            <img id="toggleIcon" src="../../stats.png" alt="Icon"/>
         </button>
         <button style:background-color={prodButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showProd} disabled={!shouldShowPieChart} id=toggleCharts>
             <img id="toggleIcon" src="../../wind-turbine.png" alt="Icon"/>
         </button>
         <button style:background-color={conButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showCon} disabled={!shouldShowPieChart} id=toggleCharts>
-            <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
+            <img id="toggleIcon" src="../../fire-place.png" alt="Icon"/>
         </button>
     </div>
     {#if panelState === 0}
