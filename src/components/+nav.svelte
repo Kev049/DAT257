@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { handleFormSubmit, countriesTest } from "../scripts/mapInteractions";
+    import { handleFormSubmit, translateCountry, translateCountries } from "../scripts/mapInteractions";
     import { countryStore } from '../store/mapStore';
 
     let svgElement : SVGSVGElement;
@@ -14,7 +14,7 @@
         selectedCountry = input.value;
         countryStore.set(selectedCountry);
 
-        autocompleteSuggestions = countriesTest($countryStore);
+        autocompleteSuggestions = translateCountries($countryStore);
         showDropdown = autocompleteSuggestions.size > 0 && selectedCountry.length > 0;
     }
 
@@ -24,8 +24,20 @@
         const cleanedCountry = country.replace(/\s*\(.*?\)/, '');
         $countryStore = cleanedCountry;
 
-        if (searchBar != null) {
+        if (searchBar !== null) {
             searchBar.value = cleanedCountry;
+        }
+    }
+
+    function fillSearchBar() {
+        console.log("HELLO BITCH");
+        if (searchBar === null) {
+            return;
+        }
+
+        const country = translateCountry($countryStore);
+        if (country !== undefined) {
+            searchBar.value = country;
         }
     }
 
@@ -66,7 +78,7 @@
         reKnewable
     </div>
     <div class="flex justify-center items-center m-0 text-white text-4xl font-dosis">
-        <form class="relative w-full flex max-h-full" on:submit="{handleFormSubmit}">
+        <form class="relative w-full flex max-h-full" on:submit="{handleFormSubmit}" on:submit={() => fillSearchBar()} on:submit={() => showDropdown = false}>
             <input type="search" bind:this={searchBar} bind:value={selectedCountry} on:input="{updateCountry}" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 outline-none font-dosis" placeholder="Search countries, continents..." required />
             <button type="submit" class="absolute border-2 right-2 top-2 text-white bg-[#323638] hover:opacity-[75%] focus:ring-4 focus:outline-none font-dosis rounded-lg text-sm px-4 py-2 ">Search</button>
             {#if showDropdown}

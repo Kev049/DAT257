@@ -55,7 +55,7 @@ function updateHighlights() {
     });
 }
 
-export function countriesTest(input: string): Set<string> {
+export function translateCountries(input: string): Set<string> {
     let countrySet: Set<string> = new Set<string>;
     let countryFoundWithCode: string | null = null;
 
@@ -95,7 +95,7 @@ export function countriesTest(input: string): Set<string> {
     return countrySet;
 }
 
-function translateCountry(input: string): string | undefined {
+export function translateCountry(input: string): string | undefined {
     let upperInput = input.toUpperCase(); 
 
     // Check if input is two letter country code
