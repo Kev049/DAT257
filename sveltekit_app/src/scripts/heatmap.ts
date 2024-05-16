@@ -3,8 +3,8 @@ import proj4 from 'proj4';
 import { csv } from 'd3-fetch';
 
 export enum HeatmapType {
-    Windmap = "Wind Map",
-    Solarmap = "Solar Map",
+    Windmap = "Windmap",
+    Solarmap = "Solarmap",
 }
 
 interface HeatmapStyle {

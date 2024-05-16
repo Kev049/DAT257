@@ -79,7 +79,7 @@
         <button on:mousedown={() => toggleHeatmap(HeatmapType.Windmap)} bind:this={windButton} class="flex justify-center items-center border-4 border-black w-24 h-24 bg-white bg-opacity-30 hover:bg-white" type="submit"><img src="/wind.png" alt="img error">
         </button>
     </div>
-    <svg bind:this={svgElement} baseProfile="tiny" fill="#ececec" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewBox="0 0 2000 857" xmlns="http://www.w3.org/2000/svg">
+    <svg bind:this={svgElement} id="worldmap" baseProfile="tiny" fill="#ececec" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewBox="0 0 2000 857" xmlns="http://www.w3.org/2000/svg">
         <circle cx="997.9" cy="189.1" id="0">
         </circle>
         <circle cx="673.5" cy="724.1" id="1">

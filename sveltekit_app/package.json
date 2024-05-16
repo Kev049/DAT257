@@ -7,17 +7,21 @@
     "build": "vite build",
     "preview": "vite preview",
     "svelte-check": "svelte-check",
-    "check": "svelte-check"
+    "check": "svelte-check",
+    "test": "vitest"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.0.0",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@testing-library/svelte": "^5.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@tsconfig/svelte": "^3.0.0",
     "@types/d3": "^7.4.3",
     "@types/d3-fetch": "^3.0.7",
     "@types/d3-hexbin": "^0.2.5",
+    "@types/jest": "^29.5.12",
     "@vavite/node-loader": "^4.1.1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
@@ -39,6 +43,7 @@
     "d3-geo-projection": "^4.0.0",
     "d3-hexbin": "^0.2.2",
     "jsdom": "^24.0.0",
-    "proj4": "^2.11.0"
+    "proj4": "^2.11.0",
+    "vitest": "^1.6.0"
   }
 }
