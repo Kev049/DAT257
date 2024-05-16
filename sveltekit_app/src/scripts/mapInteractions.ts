@@ -10,6 +10,7 @@ export let currentCon = '';
 export let tooltipContent: string = '';
 export let countries: Set<string> = new Set<string>();
 export let currentSelected: string = '';
+export let currentCountry: string = '';
 
 export function handleFormSubmit(event: Event) {
     event.preventDefault();
@@ -33,13 +34,15 @@ async function updateSidePanel(id: string){
 function toggleSidePanel(country: string, content: string, graph: string, consumption: string): void {
     countryContentStore.set(content);
     countryGraphStore.set(graph);
-    countryConStore.set(consumption)
-    if (!get(sidepanelToggler) || country !== get(countryStore)) {
+    countryConStore.set(consumption);
+    if (!get(sidepanelToggler) || currentCountry !== get(countryStore)) {
         sidepanelToggler.set(true);
     }
     else {
+        console.log("togSPFalse");
         sidepanelToggler.set(false);
     }
+    currentCountry = country;
 }
 
 function updateHighlights() {
@@ -156,6 +159,7 @@ export function setupMapInteractions(svgElement : SVGSVGElement) {
                 countryStore.set(closestGroup.id);
                 tooltipToggler.set(!get(tooltipToggler));
                 updateHighlights();
+
             }
         }
     }
