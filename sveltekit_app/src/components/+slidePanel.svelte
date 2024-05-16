@@ -73,7 +73,6 @@
                 console.log(rowLength)
                 return true;
             }
-            showConLegend();
             return false;
         }
     }
@@ -101,22 +100,19 @@
 
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 z-10 border-l-4 border-r-4 border-[#333333]">
     <div id="Button bar">
-        <button style:background-color={tableButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showTable} disabled={!shouldShowPieChart} id=toggleCharts>
+        <button style:background-color={tableButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showTable} id=toggleCharts>
             <img id="toggleIcon" src="../../stats.png" alt="Icon"/>
         </button>
-        <button style:background-color={prodButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showProd} disabled={!shouldShowPieChart} id=toggleCharts>
+        <button style:background-color={prodButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showProd} id=toggleCharts>
             <img id="toggleIcon" src="../../wind-turbine.png" alt="Icon"/>
         </button>
-        <button style:background-color={conButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showCon} disabled={!shouldShowPieChart} id=toggleCharts>
+        <button style:background-color={conButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showCon} id=toggleCharts>
             <img id="toggleIcon" src="../../fire-place.png" alt="Icon"/>
         </button>
     </div>
     {#if panelState === 0}
-        <!-- {console.log(countryContent)} -->
         {@html countryContent}
     {/if}
-    <!-- {@html countryContent} -->
-    <!-- {@html countryGraph} -->
     {#if panelState === 1}
         <img src="country_prod/ProdLegend.png" alt="Legend for production graphs">
         {@html countryGraph}
@@ -129,8 +125,5 @@
             {@html countryCon}
         {/if} -->
     {/if}
-    <!-- <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={toggleGraphs} id=toggleCharts>
-        <img id="toggleIcon" src="../../pie-chart.png" alt="Icon"/>
-    </button> -->
     
 </div>
