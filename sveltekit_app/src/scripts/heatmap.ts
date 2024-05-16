@@ -12,6 +12,7 @@ interface HeatmapStyle {
     opacity: number;
     display: 'inline' | 'none';
     maxValue: number;
+    unit: string;
 }
 
 export interface DataPoint {
@@ -81,6 +82,7 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
                 opacity: 0.5,
                 display: 'none',
                 maxValue: 13,
+                unit: 'm/s',
             };
         case HeatmapType.Solarmap:
             return {
@@ -88,6 +90,7 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
                 opacity: 0.5,
                 display: 'inline',
                 maxValue: 225,
+                unit: 'W/m²',
             };
         default:
             return {
@@ -95,6 +98,7 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
                 opacity: 0.15,
                 display: 'inline',
                 maxValue: 100,
+                unit: 'unit',
             };
     }
 }
@@ -144,7 +148,7 @@ function setupColorScale(contours: ContourMultiPolygon[], styleConfig: HeatmapSt
 
 function addLegend(mapContainer: HTMLElement, styleConfig: HeatmapStyle, heatmapType: HeatmapType): void {
     const legend = Legend(scaleSequential([0, styleConfig.maxValue], styleConfig.colorInterpolator), {
-        title: heatmapType,
+        title: heatmapType + ' (' + styleConfig.unit + ')',
     });
     if(!legend) return;
     legend.setAttribute("id", `${heatmapType}-legend`);
