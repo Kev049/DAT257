@@ -146,8 +146,6 @@ function addLegend(mapContainer: HTMLElement, styleConfig: HeatmapStyle, heatmap
     const legend = Legend(scaleSequential([0, styleConfig.maxValue], styleConfig.colorInterpolator), {
         title: heatmapType,
     });
-    const legendHeight = 44;
-    const margin = { bottom: 30, left: 50 };
     if(!legend) return;
     legend.setAttribute("id", `${heatmapType}-legend`);
     legend.style.display = styleConfig.display;
