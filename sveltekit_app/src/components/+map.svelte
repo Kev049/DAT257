@@ -48,8 +48,10 @@
     function toggleHeatmap(activeType: HeatmapType) {
         const solarmapElement = document.getElementById(HeatmapType.Solarmap);
         const windmapElement = document.getElementById(HeatmapType.Windmap);
+        const solarmapLegend = document.getElementById(HeatmapType.Solarmap + '-legend');
+        const windmapLegend = document.getElementById(HeatmapType.Windmap + '-legend');
 
-        if (!solarmapElement || !windmapElement) {
+        if (!solarmapElement || !windmapElement || !solarmapLegend || !windmapLegend) {
             console.error("One or more elements are missing in the DOM.");
             return;
         }
@@ -57,6 +59,8 @@
         // Setting display styles based on the active heatmap type
         solarmapElement.style.display = activeType === HeatmapType.Solarmap ? "block" : "none";
         windmapElement.style.display = activeType === HeatmapType.Windmap ? "block" : "none";
+        solarmapLegend.style.display = activeType === HeatmapType.Solarmap ? "block" : "none";
+        windmapLegend.style.display = activeType === HeatmapType.Windmap ? "block" : "none";
 
         // Updating button backgrounds
         sunButton.classList.toggle('bg-gray-500', activeType === HeatmapType.Solarmap);
