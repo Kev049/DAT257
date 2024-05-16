@@ -1,10 +1,10 @@
-import { select, scaleSequential, contourDensity, geoPath, interpolateInferno, selectAll, interpolateHclLong, type ScaleSequential, type ContourMultiPolygon, interpolateCool, axisBottom, scaleLinear, scaleBand, format, quantile, range, interpolateRound, quantize, interpolate, create } from 'd3';
+import { select, scaleSequential, contourDensity, geoPath, interpolateInferno, selectAll, interpolateHclLong, type ScaleSequential, type ContourMultiPolygon, interpolateCool, axisBottom, scaleLinear, scaleBand, format, quantile, range, interpolateRound, quantize, interpolate, create, map } from 'd3';
 import proj4 from 'proj4';
 import { csv } from 'd3-fetch';
 
 export enum HeatmapType {
-    Windmap = "Windmap",
-    Solarmap = "Solarmap",
+    Windmap = "Wind Map",
+    Solarmap = "Solar Map",
 }
 
 interface HeatmapStyle {
@@ -100,14 +100,14 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
 }
 
 // I use the D3 library to render a contour density map according to the radiation level.
-export async function renderHeatmap(svgElement: SVGSVGElement, data: DataPoint[], heatmapType: HeatmapType): Promise<void> {
+export async function renderHeatmap(svgElement: SVGSVGElement, mapContainer : HTMLElement, data: DataPoint[], heatmapType: HeatmapType): Promise<void> {
     const svgDimensions: SVGDimensions = { width: svgElement.viewBox.baseVal.width, height: svgElement.viewBox.baseVal.height };
     const styleConfig = getStyleConfig(heatmapType);
-    createClipPath(svgElement);
     const contours = calculateContours(data, svgDimensions);
     const colorScale = setupColorScale(contours, styleConfig);
+    createClipPath(svgElement);
     renderContours(svgElement, contours, colorScale, styleConfig, heatmapType);
-    addLegend(svgElement, colorScale, styleConfig, heatmapType, contours);
+    addLegend(mapContainer, styleConfig, heatmapType);
 }
 
 // Basically ensures that contours stay within each country's border
@@ -142,17 +142,17 @@ function setupColorScale(contours: ContourMultiPolygon[], styleConfig: HeatmapSt
     return scaleSequential(styleConfig.colorInterpolator).domain([0, maxContourValue]);
 }
 
-function addLegend(svgElement: SVGSVGElement, colorScale: ScaleSequential<string, never>, styleConfig: HeatmapStyle, heatmapType: HeatmapType, contours: ContourMultiPolygon[]): void {
+function addLegend(mapContainer: HTMLElement, styleConfig: HeatmapStyle, heatmapType: HeatmapType): void {
     const legend = Legend(scaleSequential([0, styleConfig.maxValue], styleConfig.colorInterpolator), {
-        title: heatmapType
+        title: heatmapType,
     });
     const legendHeight = 44;
     const margin = { bottom: 30, left: 50 };
     if(!legend) return;
     legend.setAttribute("id", `${heatmapType}-legend`);
     legend.style.display = styleConfig.display;
-    legend.style.transform = 'translate(' + margin.left + 'px,' + (svgElement.viewBox.baseVal.height - legendHeight - margin.bottom) + 'px)';
-    svgElement.append(legend);
+    legend.classList.add("legend-bottom-left");
+    mapContainer.append(legend);
     
 }
 
