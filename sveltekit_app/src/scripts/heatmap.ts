@@ -80,7 +80,7 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
             return {
                 colorInterpolator: interpolateCool,
                 opacity: 0.5,
-                display: 'none',
+                display: 'inline',
                 maxValue: 13,
                 unit: 'm/s',
             };
@@ -88,7 +88,7 @@ function getStyleConfig(heatmapType: HeatmapType): HeatmapStyle {
             return {
                 colorInterpolator: interpolateHclLong("yellow", "red"),
                 opacity: 0.5,
-                display: 'inline',
+                display: 'none',
                 maxValue: 225,
                 unit: 'W/m²',
             };

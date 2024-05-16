@@ -11,7 +11,7 @@
     let windButton: HTMLButtonElement;
 
     export async function initialiseHeatmapPoints(){
-        const windmapData = await fetchCSVData('/windspeed.csv');
+        const windmapData = await fetchCSVData('/windspeed-land-highres.csv');
         const solarmapData = await fetchCSVData('/heat.csv');
         renderHeatmap(svgElement, mapContainer, windmapData, HeatmapType.Windmap);
         renderHeatmap(svgElement, mapContainer, solarmapData, HeatmapType.Solarmap);
