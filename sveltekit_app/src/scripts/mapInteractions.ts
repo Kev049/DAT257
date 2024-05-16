@@ -3,7 +3,6 @@ import { countryStore, tooltipToggler, sidepanelToggler, countryContentStore, co
 import { twoLetterCountryCodes, threeLetterCountryCodes } from './countryCodes';
 import { zoomToCountry } from './zoom';
 import { viewBox, svgElement } from '../components/+map.svelte';
-import { count } from 'd3';
 
 export let currentTable = '';
 export let currentImage = '';
@@ -76,7 +75,9 @@ function removeHighlights(){
             path.classList.remove('highlight');
         });
     });
-}export function translateCountries(input: string): Set<string> {
+}
+
+export function translateCountries(input: string): Set<string> {
     let countrySet: Set<string> = new Set<string>;
     let countryFoundWithCode: string | null = null;
 
