@@ -16,6 +16,8 @@
 
     $: countryContent = '';
     //let countryGraph : string;
+    $: $countryGraphStore, updateProdButton();
+    $: $countryConStore, updateConButton();
     $: countryGraph = '';
     $: countryCon = '';
     $: showImage = false;
@@ -35,28 +37,24 @@
         // tableButtonDisabled = !shouldShowPieChart();
     });
 
-    countryGraphStore.subscribe(value => {
-        countryGraph = value;
-        // prodButtonDisabled = !shouldShowPieChart();
-        // updateButtonStates();
-    });
+    // countryGraphStore.subscribe(value => {
+    //     countryGraph = value;
+    //     // prodButtonDisabled = !shouldShowPieChart();
+    //     // updateButtonStates();
+    // });
 
-    countryConStore.subscribe(value => {
-        countryCon = value;
-        //updateButtonStates();
-        // conButtonDisabled = !shouldShowConLegend();
-    })
+    // countryConStore.subscribe(value => {
+    //     countryCon = value;
+    //     //updateButtonStates();
+    //     // conButtonDisabled = !shouldShowConLegend();
+    // })
 
     async function updateProdButton() {
-        prodButtonDisabled = !shouldShowPieChart();
+        prodButtonDisabled = !shouldShowProd();
     }
 
     async function updateConButton() {
         conButtonDisabled = !shouldShowConLegend();
-    }
-
-    function toggleGraphs() {
-        showImage = !showImage;
     }
 
     function showTable() {
@@ -80,7 +78,7 @@
         conButtonColor = 'grey';
     }
 
-    function shouldShowPieChart(){
+    function shouldShowProd(){
         var tempObject = document.createElement('div');
         tempObject.innerHTML = countryContent;
         var table = tempObject.querySelector('table');
@@ -94,6 +92,7 @@
     }
 
     function shouldShowConLegend(){
+        //console.log(countryCon, "countryCon");
         var tempImgObject = document.createElement('div');
         tempImgObject.innerHTML = countryCon;
         var cImg = tempImgObject.querySelector('img');
@@ -123,10 +122,10 @@
         <button style:background-color={tableButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showTable} id=toggleTable>
             <img id="toggleIcon" src="../../stats.png" alt="Icon"/>
         </button>
-        <button style:background-color={prodButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showProd} disabled={!shouldShowPieChart()} id=toggleProdChart>
+        <button style:background-color={prodButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showProd} disabled={prodButtonDisabled} id=toggleProdChart>
             <img id="toggleIcon" src="../../wind-turbine.png" alt="Icon"/>
         </button>
-        <button style:background-color={conButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showCon} disabled={!shouldShowConLegend()} id=toggleConsChart>
+        <button style:background-color={conButtonColor} class="disabled ? 'disabled' : '' bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-1/4" on:click={showCon} disabled={conButtonDisabled} id=toggleConsChart>
             <img id="toggleIcon" src="../../fire-place.png" alt="Icon"/>
         </button>
     </div>
