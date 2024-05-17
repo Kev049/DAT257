@@ -8,6 +8,7 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+sveltekit_app/static/*
 sveltekit_app/static/Algeria.png
 sveltekit_app/static/Brazil.png
 sveltekit_app/static/Bulgaria.png
