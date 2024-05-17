@@ -37,27 +37,26 @@
         // tableButtonDisabled = !shouldShowPieChart();
     });
 
-    // countryGraphStore.subscribe(value => {
-    //     countryGraph = value;
-    //     // prodButtonDisabled = !shouldShowPieChart();
-    //     // updateButtonStates();
-    // });
-
-    // countryConStore.subscribe(value => {
-    //     countryCon = value;
-    //     //updateButtonStates();
-    //     // conButtonDisabled = !shouldShowConLegend();
-    // })
-
     async function updateProdButton() {
         prodButtonDisabled = !shouldShowProd();
     }
 
     async function updateConButton() {
         conButtonDisabled = !shouldShowConLegend();
+        goToTableIfNoData();
+    }
+
+    async function goToTableIfNoData() {
+        if(panelState === 1 && prodButtonDisabled) {
+            showTable();
+        }
+        if(panelState === 2 && conButtonDisabled) {
+            showTable();
+        }
     }
 
     function showTable() {
+        console.log("eye");
         panelState = 0;
         tableButtonColor = 'grey';
         prodButtonColor = 'white';
@@ -96,10 +95,6 @@
         var tempImgObject = document.createElement('div');
         tempImgObject.innerHTML = $countryConStore;
         var cImg = tempImgObject.querySelector('img');
-        // console.log(get(countryConStore));
-        // console.log("cImg above");
-        // console.log(tempImgObject);
-        // console.log("tempImgObject above");
         if(cImg != null){
             return true;
         }
@@ -142,9 +137,5 @@
     {#if panelState === 2}
         <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
         {@html $countryConStore}
-        <!-- {#if showConLegend()}
-            <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
-            {@html countryCon}
-        {/if} -->
     {/if}
 </div>  
