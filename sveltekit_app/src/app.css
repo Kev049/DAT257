@@ -25,21 +25,10 @@ path.highlight {
     fill: #DB3638;
 }
 
-heatmapButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-width: 4px;
-    border-color: black;
-    width: 6rem;
-    height: 6rem;
-    --tw-bg-opacity: 0.3;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-}
-
-heatmapButton:hover {
-    background-color: white;
+.legend-bottom-left {
+    position: absolute;
+    z-index: 10;
+    bottom: 15vh; /* Adjust this value for the desired bottom margin */
+    left: 25px;   /* Adjust this value for the desired left margin */
 }
 
