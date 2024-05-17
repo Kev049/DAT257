@@ -505,3 +505,7 @@ export const threeLetterCountryCodes: CountryCodeMap = {
   ZMB: 'Zambia',
   ZWE: 'Zimbabwe',
 };
+
+export function oracle () {
+  return true
+}

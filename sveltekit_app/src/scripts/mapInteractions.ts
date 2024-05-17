@@ -76,7 +76,7 @@ function removeHighlights(){
     });
 }
 
-function translateCountry(input: string): string | undefined {
+export function translateCountry(input: string): string | undefined {
     let upperInput = input.toUpperCase(); 
 
     // Check if input is two letter country code

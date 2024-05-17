@@ -21,12 +21,12 @@ export interface DataPoint {
     value: number;
 }
 
-interface SVGDimensions {
+export interface SVGDimensions {
     width: number;
     height: number;
 }
 
-interface SVGCoordinate {
+export interface SVGCoordinate {
     x: number;
     y: number;
 }
@@ -50,7 +50,7 @@ export async function fetchCSVData(csv_path: string): Promise<DataPoint[]> {
 const wgs84 = 'EPSG:4326'; // Output
 const robinson = '+proj=robin +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs';  // Robinson projection string
 
-function convertCoordinates(lat: number, lon: number, svgDimensions: SVGDimensions): SVGCoordinate {
+export function convertCoordinates(lat: number, lon: number, svgDimensions: SVGDimensions): SVGCoordinate {
     const { width, height } = svgDimensions;
     // I have adjusted the degrees below to fit our map, normal maps have longitude(-180, 180) and latitude(-90, 90) for reference
     const minY = proj4(wgs84, robinson, [0, -56.5])[1];
