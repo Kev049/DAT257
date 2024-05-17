@@ -80,7 +80,7 @@
 
     function shouldShowProd(){
         var tempObject = document.createElement('div');
-        tempObject.innerHTML = countryContent;
+        tempObject.innerHTML = $countryContentStore;
         var table = tempObject.querySelector('table');
         var rowLength = table?.rows.length;
         if(rowLength != undefined){
@@ -92,9 +92,9 @@
     }
 
     function shouldShowConLegend(){
-        //console.log(countryCon, "countryCon");
+        console.log(countryCon, "countryCon");
         var tempImgObject = document.createElement('div');
-        tempImgObject.innerHTML = countryCon;
+        tempImgObject.innerHTML = $countryConStore;
         var cImg = tempImgObject.querySelector('img');
         // console.log(get(countryConStore));
         // console.log("cImg above");
@@ -137,11 +137,11 @@
     <!-- {@html countryGraph} -->
     {#if panelState === 1}
         <img src="country_prod/ProdLegend.png" alt="Legend for production graphs">
-        {@html countryGraph}
+        {@html $countryGraphStore}
     {/if}
     {#if panelState === 2}
         <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
-        {@html countryCon}
+        {@html $countryConStore}
         <!-- {#if showConLegend()}
             <img src="country_con/ConLegend.png" alt="Legend for consumption graphs">
             {@html countryCon}
