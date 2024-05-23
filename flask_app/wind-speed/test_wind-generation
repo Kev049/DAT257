@@ -1,0 +1,34 @@
+import unittest
+import wind_speed_csv_generator as wsg
+import os
+import pandas as pd
+import numpy as np
+
+FAKE_DF = wsg.generateDataFrame('flask_app\wind-speed\ERA5-windspeed-testing-data.nc')
+
+class TestWindGeneration(unittest.TestCase):
+
+    def test_create_blank_csv(self):
+        FAKE = pd.DataFrame()
+        wsg.produceCSV(FAKE)
+        existence = os.path.exists('flask_app\wind-speed\windspeed-land-highres.csv')
+        self.assertTrue(existence)
+
+    def test_if_wind_speed_positive(self):
+        testPass = True
+        df = wsg.calculate_wind_speed(FAKE_DF)
+
+        for i, row in df.iterrows():
+            wind_speed = row['wind_speed']
+            if (type(wind_speed) != np.float64 or wind_speed < 0):
+                testPass = False
+                break
+
+        self.assertTrue(testPass)
+
+    def test_decrease_number_data_points(self):
+        reduced_df = wsg.reduceDataPoints(FAKE_DF)
+        self.assertGreater(FAKE_DF.shape[0], reduced_df.shape[1])
+        
+if __name__ == "__main__":
+    unittest.main()
