@@ -74,7 +74,7 @@
 
 <nav class="w-full h-20 lg:h-24 grid grid-cols-3 bg-white border-b-4 border-[#333333]">
     <div class="flex justify-start pl-16 items-center m-0 font-ubuntu text-black text-4xl max-h-full gap-2">
-        know your energy
+        Energy Atlas
     </div>
     <div class="flex justify-center items-center m-0 text-white text-4xl font-dosis">
         <form class="relative w-full flex max-h-full" on:submit="{handleFormSubmit}" on:submit={() => fillSearchBar()} on:submit={() => showDropdown = false}>
