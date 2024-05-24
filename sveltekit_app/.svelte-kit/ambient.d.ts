@@ -26,9 +26,8 @@
  * ```
  */
 declare module '$env/static/private' {
-	export const ACSetupSvcPort: string;
-	export const ACSvcPort: string;
 	export const ALLUSERSPROFILE: string;
+	export const ANDROID_SDK_HOME: string;
 	export const APPDATA: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
 	export const COLOR: string;
@@ -37,6 +36,13 @@ declare module '$env/static/private' {
 	export const CommonProgramW6432: string;
 	export const COMPUTERNAME: string;
 	export const ComSpec: string;
+	export const CONDA_DEFAULT_ENV: string;
+	export const CONDA_EXE: string;
+	export const CONDA_PREFIX: string;
+	export const CONDA_PROMPT_MODIFIER: string;
+	export const CONDA_PYTHON_EXE: string;
+	export const CONDA_ROOT: string;
+	export const CONDA_SHLVL: string;
 	export const DriverData: string;
 	export const EDITOR: string;
 	export const EFC_12592: string;
@@ -47,13 +53,10 @@ declare module '$env/static/private' {
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
 	export const INIT_CWD: string;
-	export const JAVA_HOME: string;
 	export const LANG: string;
 	export const LOCALAPPDATA: string;
-	export const LOCAL_GIT_DIRECTORY: string;
 	export const LOGONSERVER: string;
-	export const M2_HOME: string;
-	export const MAVEN_HOME: string;
+	export const MONGO_HOME: string;
 	export const NODE: string;
 	export const NODE_ENV: string;
 	export const NODE_EXE: string;
@@ -86,6 +89,7 @@ declare module '$env/static/private' {
 	export const OS: string;
 	export const Path: string;
 	export const PATHEXT: string;
+	export const PGCLIENTENCODING: string;
 	export const PROCESSOR_ARCHITECTURE: string;
 	export const PROCESSOR_IDENTIFIER: string;
 	export const PROCESSOR_LEVEL: string;
@@ -96,8 +100,9 @@ declare module '$env/static/private' {
 	export const PROMPT: string;
 	export const PSModulePath: string;
 	export const PUBLIC: string;
-	export const RlsSvcPort: string;
+	export const PYTHONSTARTUP: string;
 	export const SESSIONNAME: string;
+	export const SSL_CERT_FILE: string;
 	export const SystemDrive: string;
 	export const SystemRoot: string;
 	export const TEMP: string;
@@ -108,12 +113,17 @@ declare module '$env/static/private' {
 	export const USERDOMAIN_ROAMINGPROFILE: string;
 	export const USERNAME: string;
 	export const USERPROFILE: string;
+	export const VSCODE_ENV_PREPEND: string;
+	export const VSCODE_ENV_REPLACE: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const VSCODE_GIT_IPC_HANDLE: string;
 	export const VSCODE_INJECTION: string;
+	export const VSCODE_NONCE: string;
 	export const windir: string;
+	export const _CONDA_OLD_CHCP: string;
+	export const __CONDA_OPENSLL_CERT_FILE_SET: string;
 }
 
 /**
@@ -145,9 +155,8 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
-		ACSetupSvcPort: string;
-		ACSvcPort: string;
 		ALLUSERSPROFILE: string;
+		ANDROID_SDK_HOME: string;
 		APPDATA: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
 		COLOR: string;
@@ -156,6 +165,13 @@ declare module '$env/dynamic/private' {
 		CommonProgramW6432: string;
 		COMPUTERNAME: string;
 		ComSpec: string;
+		CONDA_DEFAULT_ENV: string;
+		CONDA_EXE: string;
+		CONDA_PREFIX: string;
+		CONDA_PROMPT_MODIFIER: string;
+		CONDA_PYTHON_EXE: string;
+		CONDA_ROOT: string;
+		CONDA_SHLVL: string;
 		DriverData: string;
 		EDITOR: string;
 		EFC_12592: string;
@@ -166,13 +182,10 @@ declare module '$env/dynamic/private' {
 		HOMEDRIVE: string;
 		HOMEPATH: string;
 		INIT_CWD: string;
-		JAVA_HOME: string;
 		LANG: string;
 		LOCALAPPDATA: string;
-		LOCAL_GIT_DIRECTORY: string;
 		LOGONSERVER: string;
-		M2_HOME: string;
-		MAVEN_HOME: string;
+		MONGO_HOME: string;
 		NODE: string;
 		NODE_ENV: string;
 		NODE_EXE: string;
@@ -205,6 +218,7 @@ declare module '$env/dynamic/private' {
 		OS: string;
 		Path: string;
 		PATHEXT: string;
+		PGCLIENTENCODING: string;
 		PROCESSOR_ARCHITECTURE: string;
 		PROCESSOR_IDENTIFIER: string;
 		PROCESSOR_LEVEL: string;
@@ -215,8 +229,9 @@ declare module '$env/dynamic/private' {
 		PROMPT: string;
 		PSModulePath: string;
 		PUBLIC: string;
-		RlsSvcPort: string;
+		PYTHONSTARTUP: string;
 		SESSIONNAME: string;
+		SSL_CERT_FILE: string;
 		SystemDrive: string;
 		SystemRoot: string;
 		TEMP: string;
@@ -227,12 +242,17 @@ declare module '$env/dynamic/private' {
 		USERDOMAIN_ROAMINGPROFILE: string;
 		USERNAME: string;
 		USERPROFILE: string;
+		VSCODE_ENV_PREPEND: string;
+		VSCODE_ENV_REPLACE: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		VSCODE_GIT_IPC_HANDLE: string;
 		VSCODE_INJECTION: string;
+		VSCODE_NONCE: string;
 		windir: string;
+		_CONDA_OLD_CHCP: string;
+		__CONDA_OPENSLL_CERT_FILE_SET: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
