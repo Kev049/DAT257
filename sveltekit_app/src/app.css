@@ -24,3 +24,11 @@
 path.highlight {
     fill: #DB3638;
 }
+
+.legend-bottom-left {
+    position: absolute;
+    z-index: 10;
+    bottom: 15vh; /* Adjust this value for the desired bottom margin */
+    left: 25px;   /* Adjust this value for the desired left margin */
+}
+

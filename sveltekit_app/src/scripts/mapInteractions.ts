@@ -1,16 +1,19 @@
 import { get } from 'svelte/store';
-import { countryStore, tooltipToggler, sidepanelToggler, countryContentStore, countryGraphStore, sidePanelUpdateStore, xStore, yStore} from '../store/mapStore';
+import { countryStore, tooltipToggler, sidepanelToggler, countryContentStore, countryGraphStore, sidePanelUpdateStore, xStore, yStore, countryConStore} from '../store/mapStore';
 import { twoLetterCountryCodes, threeLetterCountryCodes } from './countryCodes';
 import { zoomToCountry } from './zoom';
 import { viewBox, svgElement } from '../components/+map.svelte';
 
 export let currentTable = '';
 export let currentImage = '';
+export let currentCon = '';
 export let tooltipContent: string = '';
 export let countries: Set<string> = new Set<string>();
 export let currentSelected: string = '';
+export let currentCountry: string = '';
 
 export function handleFormSubmit(event: Event) {
+    console.log("in handleFormSubmit, " + get(countryStore));
     event.preventDefault();
     updateHighlights();
 }
@@ -20,22 +23,27 @@ async function updateSidePanel(id: string){
                             .then(response => {return response.text();});
     let image = await fetch(`http://127.0.0.1:5000/chart/${id}`)
                             .then(image => {return image.text();});
+    let con = await fetch(`http://127.0.0.1:5000/consumption/${id}`)
+                            .then(consumption => {return consumption.text();});
     currentTable = table;
     currentImage = image;
+    currentCon = con;
     currentSelected = table;
-    console.log(image);
-    toggleSidePanel(id, currentTable, currentImage);
+    toggleSidePanel(id, currentTable, currentImage, con);
 }
 
-function toggleSidePanel(country: string, content: string, graph: string): void {
+function toggleSidePanel(country: string, content: string, graph: string, consumption: string): void {
     countryContentStore.set(content);
     countryGraphStore.set(graph);
-    if (!get(sidepanelToggler) || country !== get(countryStore)) {
+    countryConStore.set(consumption);
+    if (!get(sidepanelToggler) || currentCountry !== get(countryStore)) {
         sidepanelToggler.set(true);
     }
     else {
+        console.log("togSPFalse");
         sidepanelToggler.set(false);
     }
+    currentCountry = country;
 }
 
 function updateHighlights() {
@@ -72,7 +80,47 @@ function removeHighlights(){
     });
 }
 
-function translateCountry(input: string): string | undefined {
+export function translateCountries(input: string): Set<string> {
+    let countrySet: Set<string> = new Set<string>;
+    let countryFoundWithCode: string | null = null;
+
+    let upperInput = input.toUpperCase(); 
+
+    // Check if input is two letter country code
+    if (upperInput in twoLetterCountryCodes) {
+        countryFoundWithCode = twoLetterCountryCodes[upperInput].toLowerCase();
+        countrySet.add(twoLetterCountryCodes[upperInput]  + " (" + upperInput + ")");
+    }
+
+    // Check if inut is three letter country code
+    if (upperInput in threeLetterCountryCodes) {
+        countryFoundWithCode = threeLetterCountryCodes[upperInput].toLowerCase();
+        countrySet.add(threeLetterCountryCodes[upperInput] + " (" + upperInput + ")");
+    }
+
+    let lowerInput = input.toLowerCase();
+    
+    for (const country of countries) {
+        if (country.toLowerCase().startsWith(lowerInput) && country.toLowerCase() !== countryFoundWithCode) {
+            countrySet.add(country); // Add the matched country from the set to list
+        }
+    }
+
+    const regex = new RegExp(lowerInput, 'i'); // Create case-insensitive regex pattern from input
+    for (const country of countries) {
+        if (country.toLowerCase() === countryFoundWithCode) {
+            continue;
+        }
+        let countryRegex = regex.test(country.toLowerCase());
+        if (countryRegex) {
+            countrySet.add(country); // Return the matched country from the set
+        }
+    }
+    
+    return countrySet;
+}
+
+export function translateCountry(input: string): string | undefined {
     let upperInput = input.toUpperCase(); 
 
     // Check if input is two letter country code
@@ -85,7 +133,7 @@ function translateCountry(input: string): string | undefined {
         return threeLetterCountryCodes[upperInput];
     }
 
-    let lowerInput = upperInput.toLowerCase(); // Convert input to lowercase for case-insensitive comparison
+    let lowerInput = input.toLowerCase(); // Convert input to lowercase for case-insensitive comparison
     
     // First check if input matches the start of any country string
     for (const country of countries) {
@@ -107,9 +155,12 @@ function translateCountry(input: string): string | undefined {
 
 export function initializeCountryMap() {
     const groups = document.querySelectorAll("svg g");
+    let arr: string[] = new Array();
     groups.forEach(g => {
-        countries.add(g.id.toLowerCase())
+        arr.push(g.id)        
     })
+    arr.sort();
+    countries = new Set(arr);
 }
 
 export function setupMapInteractions(svgElement : SVGSVGElement) {
@@ -149,9 +200,10 @@ export function setupMapInteractions(svgElement : SVGSVGElement) {
             const target = event.target as Element;
             const closestGroup = target.closest('g');
             if (closestGroup) {
+                countryStore.set(closestGroup.id);
                 tooltipToggler.set(!get(tooltipToggler));
-                updateSidePanel(closestGroup.id);
                 updateHighlights();
+
             }
         }
     }
@@ -165,7 +217,7 @@ export function setupMapInteractions(svgElement : SVGSVGElement) {
 
     function handleClickOnSite(event: MouseEvent) {
         const target = event.target as Element | null;
-        if (!target?.closest('g')) {
+        if (!target?.closest('g') && !(target?.id == "toggleIcon")) {
             if (get(sidepanelToggler)) {
                 sidepanelToggler.set(false);
             }
