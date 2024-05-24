@@ -109,13 +109,13 @@
 </script>
 
 <style>
-    .dataframe > tbody > tr:first-child td {
+    /* .dataframe > tbody > tr:first-child td {
       font-weight: bold;
     }
 
     .disabled {
     background-color: #ccc;
-    }
+    } */
 
     .h-1-8 {
         height: 10%;
@@ -138,14 +138,14 @@
 </style>
 
 <div class="absolute top-0 right-0 bottom-0 w-1/4 flex flex-col px-6 bg-white text-gray-700 z-10 border-l-4 border-[#333333]">
-    <div id="Button bar" class="grid grid-cols-3 h-1-8 mb-4 mt-4">
-        <button style:background-color={tableButtonColor} class="py-2 px-4 rounded inline-flex button-tab;" on:click={showTable} id=toggleTable>
+    <div id="Button bar" class="h-1-8 mb-4 mt-4">
+        <button style:background-color={tableButtonColor} class="py-2 px-4 rounded inline-flex button-tab w-1/4" on:click={showTable} id=toggleTable>
             <img id="toggleIcon" src="../../stats.png" alt="Icon"/>
         </button>
-        <button style:background-color={prodButtonColor} class="toggleChart py-2 px-4 rounded inline-flex button-tab" on:click={showProd} disabled={prodButtonDisabled} id=toggleProdChart>
+        <button style:background-color={prodButtonColor} class="toggleChart py-2 px-4 rounded inline-flex button-tab w-1/4" on:click={showProd} disabled={prodButtonDisabled} id=toggleProdChart>
             <img id="toggleIcon" src="../../wind-turbine.png" alt="Icon"/>
         </button>
-        <button style:background-color={conButtonColor} class="toggleChart py-2 px-4 rounded inline-flex button-tab" on:click={showCon} disabled={conButtonDisabled} id=toggleConsChart>
+        <button style:background-color={conButtonColor} class="toggleChart py-2 px-4 rounded inline-flex button-tab w-1/4" on:click={showCon} disabled={conButtonDisabled} id=toggleConsChart>
             <img id="toggleIcon" src="../../fire-place.png" alt="Icon"/>
             <!-- disabled ? 'disabled' : '' -->
         </button>
